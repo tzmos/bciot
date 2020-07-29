@@ -203,7 +203,7 @@ var ExchangProcessor={
                             cur_asset=_N(((account.Balance+account.FrozenBalance)+(account.Stocks+account.FrozenStocks)*last),6);
                             //Log("cur_asset:",cur_asset,"init_asset:",init_asset,"#ff0000");
                             if(cur_asset <= (init_asset - init_asset * loss_percent_i) || Math.abs(loss_sum) >= profit_sum * 2 / 3 && Math.abs(loss_sum) >0 && profit_sum > 0){
-                                Log("当前资金:"+cur_asset+"低于本金:"+init_asset+"的"+loss_percent_i*100+"%======","或者亏损总额:"+_N(Math.abs(loss_sum),5)+"大于等于盈利总额:",+_N(profit_sum,5)+"的2/3!======请暂停机器人运行！","#FF0000","@");
+                                Log("当前资金:"+cur_asset+"低于本金:"+init_asset+"的"+loss_percent_i*100+"% ======","或者亏损总额:"+_N(Math.abs(loss_sum),5)+"大于等于盈利总额:",+_N(profit_sum,5)+"的2/3! ====== 请暂停机器人运行！","#FF0000","@");
                                 Sleep(60000);
                                 return;
                             }
@@ -255,7 +255,7 @@ var ExchangProcessor={
                 account = _C(exc_obj.GetAccount);
                 cur_asset=_N(((account.Balance+account.FrozenBalance)+(account.Stocks+account.FrozenStocks)*last),6);
                 if(cur_asset <= (init_asset - init_asset * loss_percent_i) || profit_sum * 2 / 3 <= Math.abs(loss_sum) && Math.abs(loss_sum) >0 && profit_sum > 0){
-                    Log("当前资金:"+cur_asset+"低于本金:"+init_asset+"的"+loss_percent_i*100+"%======","或者亏损总额:"+_N(Math.abs(loss_sum),5)+"大于等于盈利总额:",+profit_sum+"的2/3!======请暂停机器人运行！","#FF0000","@");
+                    Log("当前资金:"+cur_asset+"低于本金:"+init_asset+"的"+loss_percent_i*100+"% ====== ","或者亏损总额:"+_N(Math.abs(loss_sum),5)+"大于等于盈利总额:",+profit_sum+"的2/3! ====== 请暂停机器人运行！","#FF0000","@");
                     Sleep(60000);
                     return;
                 }
