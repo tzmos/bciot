@@ -33,8 +33,8 @@ contract tmosToken{
         require(balanceOf[to] + value >= balanceOf[to]);
         //总帐平衡检查（帐是平的）
         uint pre_total_balence = balanceOf[from] + balanceOf[to];
-        balanceOf[from] -= value * 10 ** decimals;
-        balanceOf[to] += value * 10 ** decimals;
+        balanceOf[from] -= value;
+        balanceOf[to] += value;
         assert(balanceOf[from] + balanceOf[to] == pre_total_balence);
         emit Transfer(from, to, value);
 
@@ -42,40 +42,40 @@ contract tmosToken{
     }
     //发币者的转帐
     function transfer(address to, uint value) public returns(bool){
-        _transfer(msg.sender, to, value);
+        _transfer(msg.sender, to, value * 10 ** decimals);
         return true;
     }
     //发行者向副卡持有者批准副卡金额
     function approve(address active,uint value) public returns (bool){
-        approveOf[active][msg.sender] = value;
-        emit Approve(msg.sender,active,value);
+        approveOf[active][msg.sender] = value * 10 ** decimals;
+        emit Approve(msg.sender,active,value * 10 ** decimals);
         return true;
         
     }
     //其他人之间的转帐（相当于所有副卡之间的转帐）
-    function transfer_approve(address from, address to, uint value) public returns (bool){
+    function transfer_approve(address from, address to, uint value) public payable returns (bool){
         require(value <= approveOf[from][msg.sender]);
         approveOf[from][msg.sender] -= value * 10 ** decimals;
-        _transfer(from, to, value);
+        _transfer(from, to, value * 10 ** decimals);
         return true;
     }
     //主卡销毁动作
     function burn(uint value) public returns (bool) {
-        require(balanceOf[msg.sender] >= value);
+        require(balanceOf[msg.sender] >= value * 10 ** decimals);
         balanceOf[msg.sender] -= value * 10 ** decimals;
         totalSupply -= value * 10 ** decimals;
-        emit Burn(msg.sender,value);
+        emit Burn(msg.sender,value * 10 ** decimals);
         return true;
         
     }
     //被批准的副卡销毁动作
     function burn_from(address from, uint value) public returns (bool) {
-        require(balanceOf[msg.sender] >= value);
-        require(approveOf[from][msg.sender] >= value);
+        require(balanceOf[msg.sender] >= value * 10 ** decimals);
+        require(approveOf[from][msg.sender] >= value * 10 ** decimals);
         balanceOf[from] -= value * 10 ** decimals;
         approveOf[from][msg.sender] -= value * 10 ** decimals;
         totalSupply -= value * 10 ** decimals;
-        emit Burn(from,value);
+        emit Burn(from,value * 10 ** decimals);
         return true;
     }
 
